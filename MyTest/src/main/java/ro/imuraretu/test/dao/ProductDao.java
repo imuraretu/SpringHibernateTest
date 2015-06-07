@@ -1,5 +1,7 @@
 package ro.imuraretu.test.dao;
 
-public interface ProductDao {
+import ro.imuraretu.test.model.Product;
+
+public interface ProductDao extends GenericDao<Product> {
 
 }

@@ -51,6 +51,8 @@
 	</beans:bean>
 	<beans:bean id="userDao" class="ro.imuraretu.test.dao.UserDaoImpl"></beans:bean>
     <beans:bean id="userBo" class="ro.imuraretu.test.bo.UserBoImpl"></beans:bean>
+    <beans:bean id="productDao" class="ro.imuraretu.test.dao.ProductDaoImpl"></beans:bean>
+    <beans:bean id="productBo" class="ro.imuraretu.test.bo.ProductBoImpl"></beans:bean>
 
 	<tx:annotation-driven />
 	<beans:bean id="transactionManager"

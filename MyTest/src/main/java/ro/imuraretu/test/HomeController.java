@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import ro.imuraretu.test.bo.ProductBo;
 import ro.imuraretu.test.bo.UserBo;
 import ro.imuraretu.test.bo.UserBoImpl;
 import ro.imuraretu.test.model.Product;
@@ -29,6 +30,9 @@ public class HomeController {
 	
 	@Autowired
 	private UserBo userBo;
+	
+	@Autowired
+	private ProductBo productBo;
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
@@ -37,7 +41,9 @@ public class HomeController {
 		logger.info("Welcome home! The client locale is {}.", locale);
 		User user = new User("ion", "parola", "ion@gmail.com");
 		List<Product> prods = new ArrayList<Product>();
-		prods.add(new Product("produs1", 20.0));
+		Product p = new Product("produs1", 20.0);
+		productBo.create(p);
+		prods.add(p);
 		user.setProducts(prods);
 		userBo.create(user);
 		Date date = new Date();

@@ -2,16 +2,16 @@ package ro.imuraretu.test.dao;
 
 import java.util.List;
 
-public interface GenericDao<T> {
+public interface GenericDao<E, K> {
+	public void add(E entity);
 
-	void create(T t);
+	public void saveOrUpdate(E entity);
 
-	T getById(long id);
+	public void update(E entity);
 
-	List<T> getAll();
+	public void remove(E entity);
 
-	void update(T t);
+	public E find(K key);
 
-	void delete(long id);
-
+	public List<E> getAll();
 }

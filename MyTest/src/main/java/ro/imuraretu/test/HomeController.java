@@ -9,6 +9,7 @@ import java.util.Locale;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,10 +29,10 @@ public class HomeController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
-	@Autowired
+	@Autowired(required = true)
 	private UserBo userBo;
 	
-	@Autowired
+	@Autowired(required = true)
 	private ProductBo productBo;
 	/**
 	 * Simply selects the home view to render by returning its name.
@@ -42,10 +43,10 @@ public class HomeController {
 		User user = new User("ion", "parola", "ion@gmail.com");
 		List<Product> prods = new ArrayList<Product>();
 		Product p = new Product("produs1", 20.0);
-		productBo.create(p);
+		productBo.add(p);
 		prods.add(p);
 		user.setProducts(prods);
-		userBo.create(user);
+		userBo.add(user);
 		Date date = new Date();
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
 		

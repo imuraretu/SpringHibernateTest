@@ -2,14 +2,11 @@ package ro.imuraretu.test.bo;
 
 import java.util.List;
 
-public interface GenericBo<T> {
-	void create(T t);
-
-	T getById(long id);
-
-	List<T> getAll();
-
-	void update(T t);
-
-	void delete(long id);
+public interface GenericBo<E, K> {
+    public void saveOrUpdate(E entity);
+    public List<E> getAll();
+    public E get(K id);
+    public void add(E entity);
+    public void update(E entity);
+    public void remove(E entity);
 }

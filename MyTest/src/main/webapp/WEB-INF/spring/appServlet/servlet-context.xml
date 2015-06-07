@@ -50,7 +50,6 @@
 		</beans:property>
 	</beans:bean>
 	
-
 	<tx:annotation-driven />
 	<beans:bean id="transactionManager"
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager">

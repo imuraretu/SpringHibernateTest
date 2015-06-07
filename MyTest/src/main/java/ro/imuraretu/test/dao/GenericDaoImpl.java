@@ -1,55 +1,63 @@
 package ro.imuraretu.test.dao;
 
+import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
 
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-public abstract class GenericDaoImpl<T> implements GenericDao<T> {
-
-	@Autowired
-	private SessionFactory sessionFactory;
-
-	private Class<T> type;
-
+@Repository
+public abstract class GenericDaoImpl<E, K extends Serializable> 
+        implements GenericDao<E, K> {
+    @Autowired
+    private SessionFactory sessionFactory;
+     
+    protected Class<? extends E> daoType;
+     
+    @SuppressWarnings({ "unchecked", "rawtypes" })
 	public GenericDaoImpl() {
-		Type t = getClass().getGenericSuperclass();
-		ParameterizedType pt = (ParameterizedType) t;
-		type = (Class) pt.getActualTypeArguments()[0];
-	}
-
+        Type t = getClass().getGenericSuperclass();
+        ParameterizedType pt = (ParameterizedType) t;
+        daoType = (Class) pt.getActualTypeArguments()[0];
+    }
+     
+    protected Session currentSession() {
+        return sessionFactory.getCurrentSession();
+    }
+     
+    @Override
+    public void add(E entity) {
+        currentSession().save(entity);
+    }
+     
+    @Override
+    public void saveOrUpdate(E entity) {
+        currentSession().saveOrUpdate(entity);
+    }
+     
+    @Override
+    public void update(E entity) {
+        currentSession().saveOrUpdate(entity);
+    }
+     
+    @Override
+    public void remove(E entity) {
+        currentSession().delete(entity);
+    }
+     
+    @SuppressWarnings("unchecked")
 	@Override
-	public void create(final T t) {
-		this.sessionFactory.getCurrentSession().save(t);
-	}
-
+    public E find(K key) {
+        return (E) currentSession().get(daoType, (Serializable) key);
+    }
+     
+    @SuppressWarnings("unchecked")
 	@Override
-	public T getById(long id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<T> getAll() {
-		final Session session = sessionFactory.getCurrentSession();
-		final Criteria crit = session.createCriteria(type);
-		return crit.list();
-	}
-
-	@Override
-	public void update(T t) {
-		sessionFactory.getCurrentSession().saveOrUpdate(t);
-	}
-
-	@Override
-	public void delete(long id) {
-		// TODO Auto-generated method stub
-
-	}
-
+    public List<E> getAll() {
+        return currentSession().createCriteria(daoType).list();
+    }
 }
